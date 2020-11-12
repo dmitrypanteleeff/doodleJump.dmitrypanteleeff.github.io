@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded',() => {
     let rightTimerId;
     let leftMoveTimerId = false;
     let rightMoveTimerId = false;
+    let score = 0;
+    let again;
     console.dir(gridHeight);
 
     //let platform  = document.createElement('.platform');
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded',() => {
             let newPlatBottom = 100 + i * platGap;
             let newPlatform = new Platform(newPlatBottom);  // переходим в класс Platform который создаёт платформы
             platforms.push(newPlatform);
+
             //console.log(platforms);
         }
     }
@@ -64,6 +67,16 @@ document.addEventListener('DOMContentLoaded',() => {
                 visual.style.bottom = platformItem.bottom + 'px';
                 //console.log(platformItem.bottom);
 
+                if (platformItem.bottom < -15){ // 15 - высота платформы
+                    let firstPlatform = platforms[0].visual;
+                    firstPlatform.classList.remove('platform');
+                    platforms.shift(); //удаляем первый элемент
+                    //console.log(platforms);
+                    score++;
+                    console.log(score);
+                    let newPlatform = new Platform(600); // 600 высота игровой области
+                    platforms.push(newPlatform);
+                }
             })
         }
     }
@@ -73,6 +86,21 @@ document.addEventListener('DOMContentLoaded',() => {
         isGameOver = true;
         clearInterval(downTimerId);
         clearInterval(upTimerId);
+        clearInterval(leftTimerId);
+        clearInterval(rightTimerId);
+        isGoingRight = false;
+        isGoingLeft = false;
+        leftMoveTimerId = false;
+        rightMoveTimerId = false;
+        while (grid.firstChild){
+            grid.removeChild(grid.firstChild);
+        }
+        grid.innerHTML = score;
+        again = document.createElement('button');
+        again.classList.add('newgame');
+        grid.appendChild(again);
+        again.addEventListener('click',console.log("Нажатие"));
+
     }
 
     function fall(){
@@ -88,7 +116,7 @@ document.addEventListener('DOMContentLoaded',() => {
                 if (
                     (doodlerBottomSpace >= platformItem.bottom) &&
                     (doodlerBottomSpace <= (platformItem.bottom + 15) ) &&  // 15 - высота плафтормы
-                    ((doodlerLeftSpace + 65) >= platformItem.left) &&  // 65 ширина дудлера 
+                    ((doodlerLeftSpace + 51) >= platformItem.left) &&  // 51 ширина дудлера 
                     ((doodlerLeftSpace) <= (platformItem.left + 85)) &&// 85 - ширина платформы
                     !isJumping) {
                         console.log("приземлился");
@@ -114,17 +142,19 @@ document.addEventListener('DOMContentLoaded',() => {
 
     
     function control(e){
-        console.log(e);
-        if (e.code === "ArrowLeft"){
-            moveLeft();
-        }
-        else if (e.code === "ArrowRight"){
-            moveRight();
-            //move right
-        }
-        else if (e.code === "ArrowUP" || e.code === "Space"){
-            //move up
-            console.log("Space");
+        //console.log(e);
+        if (!isGameOver){
+            if (e.code === "ArrowLeft"){
+                moveLeft();
+            }
+            else if (e.code === "ArrowRight"){
+                moveRight();
+                //move right
+            }
+            else if (e.code === "ArrowUp" || e.code === "Space"){
+                moveStraight();
+                console.log("Space");
+            }
         }
     }
 
@@ -136,7 +166,7 @@ document.addEventListener('DOMContentLoaded',() => {
         }    
         isGoingLeft = true;  
        // if (!isGoingRight) {
-        if (!leftMoveTimerId){
+        if (!leftMoveTimerId){ // проверка на ускорение
             leftMoveTimerId = true;
             rightMoveTimerId = false;
             leftTimerId = setInterval(function () {
@@ -169,7 +199,7 @@ document.addEventListener('DOMContentLoaded',() => {
             leftMoveTimerId = false;
 
             rightTimerId = setInterval(function(){
-                if (doodlerLeftSpace <= (400 - 65)){
+                if (doodlerLeftSpace <= (400 - 51)){
                     doodlerLeftSpace += 5;
                     doodler.style.left = doodlerLeftSpace + 'px';
                 //    clearInterval(leftTimerId);
@@ -179,9 +209,16 @@ document.addEventListener('DOMContentLoaded',() => {
                 }
             },30);
          }
-            
-      //  }
-        //clearInterval(leftTimerId);
+    }
+
+
+    function moveStraight(){
+        isGoingRight = false;
+        isGoingLeft = false;
+        clearInterval(rightTimerId);
+        clearInterval(leftTimerId);
+        leftMoveTimerId = false;
+        rightMoveTimerId = false;
     }
 
     function start(){
@@ -190,7 +227,7 @@ document.addEventListener('DOMContentLoaded',() => {
             createDoodler();
             setInterval(movePlatforms,30);
             jump();
-            document.addEventListener('keyup',control);
+            document.addEventListener('keydown',control);
             
         }
     }

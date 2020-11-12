@@ -1,15 +1,21 @@
 .grid{
     width:400px;
     height:600px;
-    background-color: yellow;
+    background-image: url("../img/dud-fon-small-blur-3.png");
+   /* background-size: cover;
+    background-position: 50% 50%;*/
+    background-repeat: repeat;
     position: relative;
     overflow: hidden;
 }
 
 .doodler {
-    width:65px;
+    width:51px;
     height: 80px;
-    background-color: red;
+    background-image: url("../img/dud-1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    
     position: absolute;
 }
 
@@ -18,4 +24,10 @@
     height: 15px;
     background-color: green;
     position: absolute;
+}
+
+.newgame{
+    width:300px;
+    height: 200px;
+    background-color: blue;
 }
