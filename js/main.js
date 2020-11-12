@@ -95,12 +95,57 @@ document.addEventListener('DOMContentLoaded',() => {
         while (grid.firstChild){
             grid.removeChild(grid.firstChild);
         }
-        grid.innerHTML = score;
-        again = document.createElement('button');
-        again.classList.add('newgame');
-        grid.appendChild(again);
-        again.addEventListener('click',console.log("Нажатие"));
+       // grid.innerHTML = score;
 
+        againDiv = document.createElement('div');
+        againDiv.classList.add('againDiv');
+        grid.appendChild(againDiv);
+        againBtn = document.createElement('button');
+        againBtn.classList.add('newgame-btn');
+
+        scoreDiv = document.createElement('span');
+        scoreDiv.innerHTML = score;
+        scoreDiv.classList.add('score-div');
+        againDiv.appendChild(scoreDiv);
+
+        againDiv.appendChild(againBtn);
+        againBtn.innerHTML="Начать новую игру";
+
+        
+
+
+        console.log(again);
+        let newGame = document.querySelector('.newgame-btn');
+        console.log(newGame);
+        newGame.addEventListener('click',startNewGame);
+
+
+    }
+
+    function startNewGame(){
+        isGameOver = false;
+        doodlerLeftSpace = 50;
+        startPoint = 150;
+        doodlerBottomSpace = startPoint;
+        isGameOver = false;
+        platformCount = 5;
+        platforms = [];
+       // gridHeight = grid.offsetHeight;
+        isJumping = true;
+        isGoingLeft = false;
+        isGoingRight = false;
+        leftTimerId;
+        rightTimerId;
+        leftMoveTimerId = false;
+        rightMoveTimerId = false;
+        score = 0;
+        if (againDiv){
+            grid.removeChild(againDiv);
+
+         //   grid.removeChild(againDiv); 
+           // grid.removeChild(again);
+        }
+        start();
     }
 
     function fall(){
@@ -234,6 +279,7 @@ document.addEventListener('DOMContentLoaded',() => {
 
 
     start();
+    
    
     
 });
