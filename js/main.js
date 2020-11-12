@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded',() => {
     const grid = document.querySelector('.grid');
     const doodler = document.createElement('div');
     let doodlerLeftSpace = 50;
-    let doodlerBottomSpace = 250;
+    let startPoint = 150;
+    let doodlerBottomSpace = startPoint;
     let isGameOver = false;
     let platformCount = 5;
     let platforms = [];
@@ -10,6 +11,12 @@ document.addEventListener('DOMContentLoaded',() => {
     let upTimerId; // время для движения вверх
     let downTimerId; // время для движения вниз
     let isJumping = true;
+    let isGoingLeft = false;
+    let isGoingRight = false;
+    let leftTimerId;
+    let rightTimerId;
+    let leftMoveTimerId = false;
+    let rightMoveTimerId = false;
     console.dir(gridHeight);
 
     //let platform  = document.createElement('.platform');
@@ -82,8 +89,12 @@ document.addEventListener('DOMContentLoaded',() => {
                     (doodlerBottomSpace >= platformItem.bottom) &&
                     (doodlerBottomSpace <= (platformItem.bottom + 15) ) &&  // 15 - высота плафтормы
                     ((doodlerLeftSpace + 65) >= platformItem.left) &&  // 65 ширина дудлера 
-                    ((doodlerLeftSpace) <= (platformItem.left + 85)) // 85 - ширина платформы
-                    )
+                    ((doodlerLeftSpace) <= (platformItem.left + 85)) &&// 85 - ширина платформы
+                    !isJumping) {
+                        console.log("приземлился");
+                        startPoint = doodlerBottomSpace;
+                        jump();
+                    }
             })
             
         },30);
@@ -95,7 +106,7 @@ document.addEventListener('DOMContentLoaded',() => {
         upTimerId = setInterval(function(){
             doodlerBottomSpace += 20;
             doodler.style.bottom = doodlerBottomSpace + 'px';
-            if (doodlerBottomSpace > 450) {
+            if (doodlerBottomSpace > startPoint + 200 ) {
                 fall();
             }
         },30);
@@ -103,16 +114,74 @@ document.addEventListener('DOMContentLoaded',() => {
 
     
     function control(e){
-        if (e.key === "ArrowLeft"){
-            //move left
+        console.log(e);
+        if (e.code === "ArrowLeft"){
+            moveLeft();
         }
-        else if (e.key === "ArrowRight"){
+        else if (e.code === "ArrowRight"){
+            moveRight();
             //move right
         }
-        else if (e.key === "ArrowUP" || e.key === "Space"){
+        else if (e.code === "ArrowUP" || e.code === "Space"){
             //move up
             console.log("Space");
         }
+    }
+
+    function moveLeft(){
+        
+        if (isGoingRight){            
+            clearInterval(rightTimerId);
+            isGoingRight = false;
+        }    
+        isGoingLeft = true;  
+       // if (!isGoingRight) {
+        if (!leftMoveTimerId){
+            leftMoveTimerId = true;
+            rightMoveTimerId = false;
+            leftTimerId = setInterval(function () {
+                
+                //  clearInterval(rightTimerId);
+                if (doodlerLeftSpace >= 0) {
+                    doodlerLeftSpace -= 5;
+                    doodler.style.left = doodlerLeftSpace + 'px';
+                   // clearInterval(rightTimerId);
+                } else {
+                    moveRight();
+                }
+            }, 30);
+        }
+            
+      //  }  
+                                
+    }
+
+    function moveRight(){
+        
+        if (isGoingLeft){            
+            clearInterval(leftTimerId);
+            isGoingLeft = false;
+        }    
+        isGoingRight = true;   
+     //   if (!isGoingLeft){
+         if (!rightMoveTimerId){  // проверка на ускорение
+            rightMoveTimerId = true;
+            leftMoveTimerId = false;
+
+            rightTimerId = setInterval(function(){
+                if (doodlerLeftSpace <= (400 - 65)){
+                    doodlerLeftSpace += 5;
+                    doodler.style.left = doodlerLeftSpace + 'px';
+                //    clearInterval(leftTimerId);
+                } else {
+                   
+                    moveLeft();
+                }
+            },30);
+         }
+            
+      //  }
+        //clearInterval(leftTimerId);
     }
 
     function start(){
@@ -121,7 +190,7 @@ document.addEventListener('DOMContentLoaded',() => {
             createDoodler();
             setInterval(movePlatforms,30);
             jump();
-            control(e);
+            document.addEventListener('keyup',control);
             
         }
     }
