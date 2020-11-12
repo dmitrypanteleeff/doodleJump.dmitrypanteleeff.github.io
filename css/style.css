@@ -1,13 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap');
+/*'Ruslan Display'*/
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+
+
 .grid{
     width:400px;
     height:600px;
-    background-color: yellow;
-   /* background-image: url("../img/dud-fon-small-blur-3.png");*/
+    background-size: contain;
+    background-color: rgba(255, 247, 0,0.6);
+    background-blend-mode: darken;
+    background-image: url("../img/list-fon.jpg");
    /* background-size: cover;
     background-position: 50% 50%;*/
     background-repeat: repeat;
     position: relative;
-    /*overflow: hidden;*/
+    overflow: hidden;
     box-sizing: border-box;
 }
 
@@ -22,9 +31,13 @@
 }
 
 .platform {
-    width: 85px;
+    width: 80px;
     height: 15px;
-    background-color: green;
+    background-color: rgba(0, 255, 0, 0.9);
+    background-blend-mode: darken;
+    background-image: url("../img/dud-fon-2.png");
+    background-repeat: repeat;
+    background-size: contain;
     position: absolute;
 }
 .againDiv{
@@ -40,18 +53,43 @@
     border:5px solid red;
 }
 .newgame-btn{
-    width:150px;
-    height: 50px;
+    padding: 15px 15px;
     position: relative;
+    width: 210px;
     margin:0 auto;
     border-radius: 10px;
     background-color: white;
 }
 
 .score-div{
-    font-size: 24px;
+    font-family: 'Press Start 2P';
+    font-size: 24px;    
     color: white;
     text-align: center;
-    z-index: 200;
+  /*  z-index: 200;*/
     padding:40px 0px;
+}
+
+.name-game-title{
+    font-size:20px;
+    color:rgba(0, 255, 0, 1);
+    text-align: center;
+    padding:40px 0px 0px;
+    font-family: 'Press Start 2P';
+}
+
+.name-game{
+    font-size: 28px;
+    color:rgba(0, 255, 0, 1);
+    text-align: center;
+    padding:40px 0px 0px;
+    font-family: 'Press Start 2P';
+
+}
+
+.new-dud-span{
+    font-family: 'Press Start 2P';
+    font-size: 12px;    
+    color: black;
+    text-align: center;
 }

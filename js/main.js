@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded',() => {
     let rightMoveTimerId = false;
     let score = 0;
     let again;
+    let timerMovePlatforms;
     console.dir(gridHeight);
 
     //let platform  = document.createElement('.platform');
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded',() => {
 
     function createPlatforms(){
         for (let i = 0; i < platformCount; i++){
-            let platGap = gridHeight / platformCount;
+            let platGap = gridHeight / platformCount;  // расстояние между платформами
             let newPlatBottom = 100 + i * platGap;
             let newPlatform = new Platform(newPlatBottom);  // переходим в класс Platform который создаёт платформы
             platforms.push(newPlatform);
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded',() => {
         if (doodlerBottomSpace > 200){
             
             platforms.forEach(platformItem =>{
-                platformItem.bottom = platformItem.bottom - 4;  //для каждого элемента массива platforms изменяю свойство bottom на -4
+                platformItem.bottom -= 4;  //для каждого элемента массива platforms изменяю свойство bottom на -4
                 let visual = platformItem.visual;  // визуализировали платформу
                 visual.style.bottom = platformItem.bottom + 'px';
                 //console.log(platformItem.bottom);
@@ -84,6 +85,7 @@ document.addEventListener('DOMContentLoaded',() => {
     function gameOver(){
         console.log("game over");
         isGameOver = true;
+        clearInterval(timerMovePlatforms);
         clearInterval(downTimerId);
         clearInterval(upTimerId);
         clearInterval(leftTimerId);
@@ -96,6 +98,13 @@ document.addEventListener('DOMContentLoaded',() => {
             grid.removeChild(grid.firstChild);
         }
        // grid.innerHTML = score;
+        nameGameTitle = document.createElement('span');
+        nameGameTitle.classList.add('name-game-title');
+        nameGameTitle.innerHTML='Новая компьютерная игра';
+
+        nameGameDiv = document.createElement('span');
+        nameGameDiv.classList.add('name-game');
+        nameGameDiv.innerHTML='"ДУДЬл Джамп"';
 
         againDiv = document.createElement('div');
         againDiv.classList.add('againDiv');
@@ -103,14 +112,20 @@ document.addEventListener('DOMContentLoaded',() => {
         againBtn = document.createElement('button');
         againBtn.classList.add('newgame-btn');
 
+        againDiv.appendChild(nameGameDiv);
+        againDiv.appendChild(nameGameTitle);
+
+
         scoreDiv = document.createElement('span');
         scoreDiv.innerHTML = score;
         scoreDiv.classList.add('score-div');
         againDiv.appendChild(scoreDiv);
 
         againDiv.appendChild(againBtn);
-        againBtn.innerHTML="Начать новую игру";
-
+        newDudSpan = document.createElement('span');
+        newDudSpan.classList.add('new-dud-span');
+        newDudSpan.innerHTML="Запустить нового Дудя";
+        againBtn.appendChild(newDudSpan);
         
 
 
@@ -134,17 +149,19 @@ document.addEventListener('DOMContentLoaded',() => {
         isJumping = true;
         isGoingLeft = false;
         isGoingRight = false;
-        leftTimerId;
-        rightTimerId;
+     //   leftTimerId;
+     //   rightTimerId;
         leftMoveTimerId = false;
         rightMoveTimerId = false;
         score = 0;
+        
         if (againDiv){
             grid.removeChild(againDiv);
 
          //   grid.removeChild(againDiv); 
            // grid.removeChild(again);
         }
+       // clearInterval(movePlatforms);
         start();
     }
 
@@ -162,7 +179,7 @@ document.addEventListener('DOMContentLoaded',() => {
                     (doodlerBottomSpace >= platformItem.bottom) &&
                     (doodlerBottomSpace <= (platformItem.bottom + 15) ) &&  // 15 - высота плафтормы
                     ((doodlerLeftSpace + 51) >= platformItem.left) &&  // 51 ширина дудлера 
-                    ((doodlerLeftSpace) <= (platformItem.left + 85)) &&// 85 - ширина платформы
+                    ((doodlerLeftSpace) <= (platformItem.left + 80)) &&// 80 - ширина платформы
                     !isJumping) {
                         console.log("приземлился");
                         startPoint = doodlerBottomSpace;
@@ -270,7 +287,8 @@ document.addEventListener('DOMContentLoaded',() => {
         if (!isGameOver){   // if (gameOver == false)
             createPlatforms();
             createDoodler();
-            setInterval(movePlatforms,30);
+          //  movePlatforms();
+            timerMovePlatforms = setInterval(movePlatforms,30);
             jump();
             document.addEventListener('keydown',control);
             
