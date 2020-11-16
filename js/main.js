@@ -290,8 +290,8 @@ document.addEventListener('DOMContentLoaded',() => {
             var yAbs = Math.abs(startPoint.y - nowPoint.pageY);
             if ((xAbs > 20 || yAbs > 20) && (pdelay.getTime() - ldelay.getTime()) < 200) {
                 if (xAbs > yAbs) {
-                    if (nowPoint.pageX < startPoint.x) {/*СВАЙП ВЛЕВО*/ }
-                    else {/*СВАЙП ВПРАВО*/ }
+                    if (nowPoint.pageX < startPoint.x) {gridTest.innerHTML = "свайп влево";/*СВАЙП ВЛЕВО*/ }
+                    else {gridTest.innerHTML = "свайп вправо";/*СВАЙП ВПРАВО*/ }
                 }
                 else {
                     if (nowPoint.pageY < startPoint.y) {/*СВАЙП ВВЕРХ*/ }
