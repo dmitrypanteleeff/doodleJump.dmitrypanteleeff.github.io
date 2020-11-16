@@ -241,22 +241,8 @@ document.addEventListener('DOMContentLoaded',() => {
         },30);
     }
 }*/
-   
-    function control(e){
-        //console.log(e);
-        if (!isGameOver){
-            if (e.code === "ArrowLeft"){
-                moveLeft();
-            }
-            else if (e.code === "ArrowRight"){
-                moveRight();
-                //move right
-            }
-            else if (e.code === "ArrowUp" || e.code === "Space"){
-                moveStraight();
-                console.log("Space");
-            }
-        }
+    function controlMob(e){
+        document.addEventListener('click',console.log("Текст"));
         var startPoint = {};
         var nowPoint;
         var ldelay;
@@ -300,9 +286,27 @@ document.addEventListener('DOMContentLoaded',() => {
                 }
             }
         }, false);
+    }
 
 
-
+    
+    function control(e){
+        
+        //console.log(e);
+        if (!isGameOver){
+            if (e.code === "ArrowLeft"){
+                moveLeft();
+            }
+            else if (e.code === "ArrowRight"){
+                moveRight();
+                //move right
+            }
+            else if (e.code === "ArrowUp" || e.code === "Space"){
+                moveStraight();
+                console.log("Space");
+            }
+            
+        }
     }
 
     function moveLeft(){
@@ -376,6 +380,7 @@ document.addEventListener('DOMContentLoaded',() => {
             timerMovePlatforms = setInterval(movePlatforms,30);
             jump();
             document.addEventListener('keydown',control);
+            document.addEventListener('touchstart',controlMob);
             
         }
     }
