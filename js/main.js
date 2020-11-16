@@ -266,6 +266,7 @@ document.addEventListener('DOMContentLoaded',() => {
             startPoint.x = event.changedTouches[0].pageX;
             startPoint.y = event.changedTouches[0].pageY;
             ldelay = new Date();
+            gridTest.innerHTML = "Тык ";
         }, false);
         /*Ловим движение пальцем*/
         document.addEventListener('touchmove', function (event) {
@@ -299,6 +300,9 @@ document.addEventListener('DOMContentLoaded',() => {
                 }
             }
         }, false);
+
+
+
     }
 
     function moveLeft(){
