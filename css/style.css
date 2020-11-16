@@ -93,3 +93,9 @@
     color: black;
     text-align: center;
 }
+
+.grid-test{
+    width: 300px;
+    height:200px;
+    border:blue solid 2px;
+}
